@@ -16,18 +16,31 @@ def detect_genre(text):
     else:
         return "Other"
  
+import re
+
 def extract_keywords(text):
-    text = text.lower().replace("https", "")
+    text = text.lower()
+
+    # ❌ remove all URLs (even broken ones)
+    text = re.sub(r'\S*://\S*', '', text)   # removes anything like ://...
+    text = re.sub(r'http\S+|www\S+', '', text)
+
+    # ❌ remove special characters
+    text = re.sub(r'[^a-zA-Z0-9\s]', '', text)
+
     words = text.split()
 
-    stopwords = ["the", "is", "in", "and", "to", "of", "a", "this"]
+    stopwords = {
+        "the", "is", "in", "and", "to", "of", "a", "this",
+        "for", "with", "on", "at", "by", "an", "be"
+    }
 
     keywords = [
-        word for word in words 
+        word for word in words
         if word not in stopwords and len(word) > 3
     ]
 
-    return list(set(keywords))[:5]  
+    return list(set(keywords))[:5]
 
 import re
 

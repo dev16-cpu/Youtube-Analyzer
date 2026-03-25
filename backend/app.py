@@ -2,11 +2,18 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from googleapiclient.discovery import build
 from analyzer import detect_genre, extract_keywords, format_duration
+from dotenv import load_dotenv
+import os
+
+load_dotenv(dotenv_path="backend/.env")
+
+API_KEY = os.getenv("API_KEY")
+
+if not API_KEY:
+    raise ValueError("API_KEY not found. Check your .env file")
 
 app = Flask(__name__)
-CORS(app)   
-
-API_KEY = "AIzaSyBK8ZEItLjlILqrN5iCNjVgVQ5-O_KfwsI"
+CORS(app)
 
 youtube = build('youtube', 'v3', developerKey=API_KEY)
 
