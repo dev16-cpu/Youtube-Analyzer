@@ -25,6 +25,9 @@ def extract_video_id(url):
         return url.split("youtu.be/")[1].split("?")[0]
 
     return None
+@app.route("/")
+def home():
+    return "YouTube Analyzer API is running 🚀"
 
 @app.route("/analyze", methods=["POST"])
 def analyze():
